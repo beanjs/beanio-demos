@@ -28,14 +28,14 @@ function onInit () {
   })
 }
 
-function update (rgb, light) {
-  const r = (rgb >> 16) & 0xff
-  const g = (rgb >> 8) & 0xff
-  const b = (rgb >> 0) & 0xff
+function update () {
+  const r = (G_RGB >> 16) & 0xff
+  const g = (G_RGB >> 8) & 0xff
+  const b = (G_RGB >> 0) & 0xff
 
-  analogWrite(PIN_R, r / 255, { freq: light })
-  analogWrite(PIN_G, g / 255, { freq: light })
-  analogWrite(PIN_B, b / 255, { freq: light })
+  analogWrite(PIN_R, r / 255, { freq: G_LIGHT })
+  analogWrite(PIN_G, g / 255, { freq: G_LIGHT })
+  analogWrite(PIN_B, b / 255, { freq: G_LIGHT })
 }
 
 // 设置 beanio 连接成功 事件函数
@@ -47,11 +47,11 @@ beanio.on('disconnect', () => console.log('beanio disconnected'))
 // 设置 beanio 数据通道 事件函数
 beanio.on(SUBJECT_RGB, rgb => {
   G_RGB = rgb
-  update(G_RGB, G_LIGHT)
+  update()
 })
 
 // 设置 beanio 数据通道 事件函数
 beanio.on(SUBJECT_LIGHT, light => {
   G_LIGHT = light
-  update(G_RGB, G_LIGHT)
+  update()
 })
